@@ -1,19 +1,17 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const apiRoutes = require('./routes/api');
 
 const app = express();
+const port = process.env.PORT || 5000;
 
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/my_database', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('MongoDB Connected'))
-  .catch(err => console.log('MongoDB Connection Error: ', err));
+// Middleware
+app.use(bodyParser.json());
 
-// Add middleware and routes here
+// API routes
+app.use('/api', apiRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
